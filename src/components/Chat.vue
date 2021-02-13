@@ -20,24 +20,30 @@
                         .chat__message-name(v-if="user != item.user") {{ item.user }}
                         .chat__message-text(v-html="formatText(item.text)")
                     .chat__notification(v-else v-html="formatText(item.text)")
-            form.chat__control(@submit.prevent="send()")
+            form.chat__control(@submit.prevent="send")
                 textarea.chat__control-field(
+                    rows="1"
                     placeholder="Введите сообщение"
-                    v-model="message"
-                    @keyup.enter.exact.prevent="send()"
+                    v-model.trim="message"
+                    ref="textareaMessage"
+                    @keyup.enter.exact.prevent="send"
+                    @input="mixin_autoResize_resize"
                 )
                 button.chat__control-submit.btn.btn_circle(
                     type="submit"
                 )
-                    img(src="@/assets/img/ico-send.svg" alt)
+                    span: img(src="@/assets/img/ico-send.svg" alt)
+                    span: img(src="@/assets/img/ico-send.svg" alt)
 </template>
 
 <script>
     import Vuelidate from '@vuelidate/core'
     import { required } from '@vuelidate/validators'
+    import mixinAutoResize from "@/mixins/autoResize.js"
 
     export default {
         name: 'Chat',
+        mixins: [mixinAutoResize],
         setup () {
             return {
                 validator: Vuelidate()
@@ -62,7 +68,7 @@
             }
         },
         methods: {
-            send() {
+            send: function (event) {
                 this.validator.message.$touch();
                 if(!this.validator.message.$invalid) {
                     const data = {
@@ -72,6 +78,7 @@
                     }
                     this.$store.dispatch('updateMessages', data);
                     this.message = '';
+                    this.mixin_autoResize_reset(event);
                 }
             },
             login() {
