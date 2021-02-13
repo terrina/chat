@@ -9,9 +9,17 @@
                     @click.prevent="logout()"
                 ) Выйти
             .chat__list
-                .chat__message(v-for="(item, i) in messages" :key="i" :class="{ 'chat__message_right' : user === item.user }")
-                    .chat__message-name(v-if="user != item.user") {{ item.user }}
-                    .chat__message-text(v-html="formatText(item.text)")
+                template(
+                    v-for="(item, i) in messages"
+                    :key="i"
+                )
+                    .chat__message(
+                        v-if="item.type === 'message'"
+                        :class="{ 'chat__message_right' : user === item.user }"
+                    )
+                        .chat__message-name(v-if="user != item.user") {{ item.user }}
+                        .chat__message-text(v-html="formatText(item.text)")
+                    .chat__notification(v-else v-html="formatText(item.text)")
             form.chat__control(@submit.prevent="send()")
                 textarea.chat__control-field(
                     placeholder="Введите сообщение"
@@ -59,10 +67,30 @@
                 if(!this.validator.message.$invalid) {
                     const data = {
                         user: this.user,
-                        text: this.message
+                        text: this.message,
+                        type: 'message',
                     }
                     this.$store.dispatch('updateMessages', data);
                     this.message = '';
+                }
+            },
+            login() {
+                const data = {
+                    user: this.user,
+                    text: `Пользователь <b>${this.user}</b> присоединился к чату`,
+                    type: 'notification',
+                }
+                this.$store.dispatch('updateMessages', data);
+            },
+            logout() {
+                if (this.user) {
+                    const data = {
+                        user: this.user,
+                        text: `Пользователь <b>${this.user}</b> покинул чат`,
+                        type: 'notification',
+                    }
+                    this.$store.dispatch('updateMessages', data);
+                    this.$store.commit('logout');
                 }
             },
             formatText(text) {
@@ -70,9 +98,15 @@
             }
         },
         mounted() {
+            this.login();
+
             setInterval(() => {
                 this.$store.dispatch('updateMessages');
             }, 1000);
+
+            window.addEventListener('unload', () => {
+                this.logout();
+            });
         }
     }
 </script>

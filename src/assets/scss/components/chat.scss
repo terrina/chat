@@ -35,6 +35,7 @@
     &__message {
         width: 100%;
         max-width: 340px;
+        margin-top: 15px;
         padding: 10px 15px;
         border-radius: 10px;
 
@@ -56,6 +57,17 @@
             align-self: flex-end;
 
             background: rgba($color-primary, 0.2);
+        }
+    }
+
+    &__notification {
+        margin-top: 15px;
+
+        font-size: 14px;
+        text-align: center;
+
+        & + & {
+            margin-top: 5px;
         }
     }
 

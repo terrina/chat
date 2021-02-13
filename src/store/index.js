@@ -30,7 +30,7 @@ export default createStore({
             const msgsReverse = msgs.slice().reverse();
             let count = 0;
             let msgsTrim = msgsReverse.filter(function(item) {
-                if (item.user !== state.user) {
+                if (item.user !== state.user && item.type === "message") {
                     if (count < 10) {
                         count++;
                         return item;
