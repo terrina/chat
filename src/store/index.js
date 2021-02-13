@@ -20,12 +20,26 @@ export default createStore({
         },
     },
     actions: {
-        updateMessages({ commit }, data) {
+        updateMessages({ commit, state }, data) {
+            // update localStorage
             let msgs = JSON.parse(localStorage.getItem('messages')) || [];
             if (data) msgs.push(data);
             localStorage.setItem('messages', JSON.stringify(msgs));
 
-            commit('updateMessages', msgs);
+            // trimming messages for output
+            const msgsReverse = msgs.slice().reverse();
+            let count = 0;
+            let msgsTrim = msgsReverse.filter(function(item) {
+                if (item.user !== state.user) {
+                    if (count < 10) {
+                        count++;
+                        return item;
+                    }
+                } else {
+                    if (count < 10) return item;
+                }
+            });
+            commit('updateMessages', msgsTrim.reverse());
         }
     },
     modules: {}
