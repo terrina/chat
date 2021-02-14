@@ -6,13 +6,15 @@
             .login__title Введите Ваше имя, чтобы продолжить
             form.form(@submit.prevent="submitLogin()")
                 .form-control(:class="{'form-control_error': validator.userName.$error}")
-                    input.form-control__field(
-                        type="text"
-                        placeholder="Имя"
-                        name="user"
-                        v-model="userName"
-                        @change="validator.userName.$touch()"
-                    )
+                    .form-control__group
+                        input.form-control__field(
+                            type="text"
+                            placeholder="Имя"
+                            name="user"
+                            v-model="userName"
+                            @change="validator.userName.$touch()"
+                        )
+                        label.form-control__label Имя
                     .form-control__message(v-if="validator.userName.$error") Заполните, пожалуйста, поле
                 button.btn.btn_flat(
                     type="submit"

@@ -5,13 +5,17 @@
         margin-bottom: 30px;
     }
 
+    &__group {
+        position: relative;
+    }
+
     &__field {
         width:100%;
         padding: 10px 0;
 
         background: none;
         border: none;
-        border-bottom: 1px solid rgba($color-text, 0.4);
+        border-bottom: 1px solid rgba($color-text, 0.2);
 
         font-family: 'Arial', sans-serif;
         font-weight: 400;
@@ -19,13 +23,43 @@
 
         transition: border 0.3s;
 
-        &:focus {
-            border-color: $color-secondary;
+        &::placeholder {
+            color: rgba($color-text, 0);
         }
 
-        &::placeholder {
-            color: rgba($color-text, 0.4);
+        &:placeholder-shown ~ #{$this}__label {
+            transform: translate(0, -50%) scale(1);
         }
+
+        &:focus {
+            border-color: $color-secondary;
+
+            ~ #{$this}__label {
+                transform: translate3d(0, -180%, 0) scale(0.8);
+            }
+        }
+
+        &:-webkit-autofill {
+            -webkit-box-shadow: inset 0 0 0 40px $color-base;
+            -webkit-text-fill-color: $color-text;
+        }
+    }
+
+    &__label {
+        display: block;
+        position: absolute;
+        top: 50%;
+        pointer-events: none;
+
+        font-size: 16px;
+        color: rgba($color-text, 0.5);
+        white-space: nowrap;
+
+        transform: translate3d(0, -180%, 0) scale(0.8);
+
+        transform-origin: left center;
+
+        transition: 0.3s transform;
     }
 
     &__message {
