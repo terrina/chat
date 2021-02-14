@@ -1,8 +1,14 @@
 .login {
     &__title {
-        margin: 0 0 35px;
+        margin: 0 0 20px;
 
-        font-size: 24px;
+        font-size: 16px;
         line-height: 1.4;
+
+        @media (min-width:$screen-sm) {
+            margin: 0 0 35px;
+
+            font-size: 24px;
+        }
     }
 }

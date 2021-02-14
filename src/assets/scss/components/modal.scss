@@ -22,9 +22,15 @@
 
     &__dialog {
         position: relative;
-        max-width: 800px;
-        padding: 50px;
+        width: 90%;
+        max-width: 500px;
+        padding: 30px 20px;
 
         background: $color-base;
+
+        @media (min-width:$screen-sm) {
+            max-width: 600px;
+            padding: 50px;
+        }
     }
 }
