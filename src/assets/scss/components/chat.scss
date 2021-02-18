@@ -105,8 +105,14 @@
             resize: none;
             overflow: hidden;
 
+            transition: 0.3s border-color;
+
             &::placeholder {
                 color: rgba($color-text, 0.4);
+            }
+
+            &:focus {
+                border-color: rgba($color-text, 0.2);
             }
         }
 

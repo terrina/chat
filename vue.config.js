@@ -15,6 +15,7 @@ module.exports = {
 			},
 		},
 	},
+	publicPath: '',
 	filenameHashing: false,
 	devServer: {
 		port: 8005,

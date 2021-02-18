@@ -9,11 +9,18 @@
         position: relative;
     }
 
+    input {
+        &::placeholder {
+            color: rgba($color-primary, 0);
+        }
+    }
+
     &__field {
         width:100%;
         padding: 10px 0;
 
         background: none;
+        border-radius: 0;
         border: none;
         border-bottom: 1px solid rgba($color-text, 0.2);
 
@@ -24,7 +31,7 @@
         transition: border 0.3s;
 
         &::placeholder {
-            color: rgba($color-text, 0);
+            color: rgba($color-primary, 0);
         }
 
         &:placeholder-shown ~ #{$this}__label {
